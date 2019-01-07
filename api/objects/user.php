@@ -25,46 +25,6 @@ class User{
     public function __construct($db){
         $this->conn = $db;
     } 
-    // create new user record
-    function create(){
-    
-        // insert query
-        $query = "INSERT INTO " . $this->table_name . "
-                SET
-                    firstname = :firstname,
-                    lastname = :lastname,
-                    email = :email,
-                    password = :password,
-                    contact_number = :contact_number,
-                    address = :address,
-                    access_level = :access_level,
-                    status = :status";
-    
-        // prepare the query
-        $stmt = $this->conn->prepare($query);
-    
-        // bind the values
-        $stmt->bindParam(':firstname', $this->firstname);
-        $stmt->bindParam(':lastname', $this->lastname);
-        $stmt->bindParam(':email', $this->email);
-    
-        // hash the password before saving to database
-        $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
-        $stmt->bindParam(':password', $password_hash);
-
-        $stmt->bindParam(':contact_number', $this->contact_number);
-        $stmt->bindParam(':address', $this->address);
-        $stmt->bindParam(':access_level', $this->access_level);
-        $stmt->bindParam(':status', $this->status);
-    
-        // execute the query, also check if query was successful
-        if($stmt->execute()){
-            return true;
-        }else{
-            print_r($stmt->errorInfo());
-            return false;
-        }
-    }
     // check if given email exist in the database
     function emailExists(){
     
@@ -106,6 +66,46 @@ class User{
             return false;
         }
     }
+    // create new user record
+    function create(){
+    
+        // insert query
+        $query = "INSERT INTO " . $this->table_name . "
+                SET
+                    firstname = :firstname,
+                    lastname = :lastname,
+                    email = :email,
+                    password = :password,
+                    contact_number = :contact_number,
+                    address = :address,
+                    access_level = :access_level,
+                    status = :status";
+    
+        // prepare the query
+        $stmt = $this->conn->prepare($query);
+    
+        // bind the values
+        $stmt->bindParam(':firstname', $this->firstname);
+        $stmt->bindParam(':lastname', $this->lastname);
+        $stmt->bindParam(':email', $this->email);
+    
+        // hash the password before saving to database
+        $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+        $stmt->bindParam(':password', $password_hash);
+
+        $stmt->bindParam(':contact_number', $this->contact_number);
+        $stmt->bindParam(':address', $this->address);
+        $stmt->bindParam(':access_level', $this->access_level);
+        $stmt->bindParam(':status', $this->status);
+    
+        // execute the query, also check if query was successful
+        if($stmt->execute()){
+            return true;
+        }else{
+            print_r($stmt->errorInfo());
+            return false;
+        }
+    }
     // update a user record
     public function update(){
     
@@ -124,11 +124,6 @@ class User{
         // prepare the query
         $stmt = $this->conn->prepare($query);
     
-        // sanitize
-        $this->firstname=htmlspecialchars(strip_tags($this->firstname));
-        $this->lastname=htmlspecialchars(strip_tags($this->lastname));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-    
         // bind the values from the form
         $stmt->bindParam(':firstname', $this->firstname);
         $stmt->bindParam(':lastname', $this->lastname);
@@ -136,7 +131,6 @@ class User{
     
         // hash the password before saving to database
         if(!empty($this->password)){
-            $this->password=htmlspecialchars(strip_tags($this->password));
             $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
             $stmt->bindParam(':password', $password_hash);
         }

@@ -5,7 +5,9 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
- 
+//includes
+include_once 'libs/utils.php';
+include_once 'config/core.php';
 // files needed to connect to database
 include_once 'config/database.php';
 include_once 'objects/user.php';
@@ -16,6 +18,7 @@ $db = $database->getConnection();
  
 // instantiate product object
 $user = new User($db);
+$utils = new Utils();
  
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
@@ -28,23 +31,38 @@ $user->password = $data->password;
 $user->contact_number = $data->contact_number;
 $user->address = $data->address;
 $user->access_level = $data->access_level;
+$user->access_code = 'access_code';
 $user->status = 0;
 //check if email already exists
 if($user->emailExists()){
     // set response code
-    http_response_code(400);
+    http_response_code(409);
 
     // display message: unable to create user
     echo json_encode(array("message" => "Error! Email already exist"));
 }else{
     // create the user
     if($user->create()){
-
-        // set response code
-        http_response_code(200);
+        // send confimation email
+        $send_to_email = $user->email;
+        $body="Hi {$user->firstname} {$user->lastname}.<br /><br />";
+        $body.="Please click the following link to verify your email and login: {$home_url}verify/?access_code={$user->access_code}";
+        $subject="Account Confirmation";
     
-        // display message: user was created
-        echo json_encode(array("message" => "User was created."));
+        if($utils->sendEmailViaPhpMail($send_to_email, $subject, $body)){
+            // set response code
+            http_response_code(200);
+        
+            // display message: user was created
+            echo json_encode(array("message" => "User was created, Verification link sent"));
+        }else{
+            //Todo: add code to delete last inserted user from database
+            // set response code
+            http_response_code(500);
+        
+            // display message: user was created
+            echo json_encode(array("message" => "Error! unable to send verification link"));
+        }
     }
     // message if unable to create user
     else{
@@ -53,6 +71,6 @@ if($user->emailExists()){
         http_response_code(400);
     
         // display message: unable to create user
-        echo json_encode(array("message" => "Unable to create user."));
+        echo json_encode(array("message" => "Error! Unable to create user."));
     }
 }
