@@ -30,9 +30,11 @@ $user->lastname = $data->lastname;
 $user->password = $data->password;
 $user->contact_number = $data->contact_number;
 $user->address = $data->address;
-$user->access_level = $data->access_level;
-$user->access_code = 'access_code';
+$user->access_level = 'admin';
 $user->status = 0;
+//access code for email verification
+$access_code = $utils->getToken();
+$user->access_code = $access_code;
 //check if email already exists
 if($user->emailExists()){
     // set response code

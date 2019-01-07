@@ -29,7 +29,7 @@ class User{
     function emailExists(){
     
         // query to check if email exists
-        $query = "SELECT id, firstname, lastname, password
+        $query = "SELECT id, firstname, lastname, password, access_level
                 FROM " . $this->table_name . "
                 WHERE email = ?
                 LIMIT 0,1";
@@ -57,6 +57,7 @@ class User{
             $this->firstname = $row['firstname'];
             $this->lastname = $row['lastname'];
             $this->password = $row['password'];
+            $this->access_level = $row['access_level'];
     
             // return true because email exists in the database
             return true;
@@ -79,6 +80,7 @@ class User{
                     contact_number = :contact_number,
                     address = :address,
                     access_level = :access_level,
+                    access_code = :access_code,
                     status = :status";
     
         // prepare the query
@@ -96,6 +98,7 @@ class User{
         $stmt->bindParam(':contact_number', $this->contact_number);
         $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':access_level', $this->access_level);
+        $stmt->bindParam(':access_code', $this->access_code);
         $stmt->bindParam(':status', $this->status);
     
         // execute the query, also check if query was successful

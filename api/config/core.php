@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 date_default_timezone_set('Africa/Lagos');
 
 // home page url
-$home_url="http://web-app.test/";
+$home_url = "www.{$_SERVER['SERVER_NAME']}/";
  
 // variables used for jwt
 $key = "example_key";

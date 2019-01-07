@@ -50,8 +50,7 @@ if($jwt){
             "error" => $e->getMessage()
         ));
     }
-}
-// show error message if jwt is empty
+}// show error message if jwt is empty
 else{
  
     // set response code
