@@ -69,3 +69,4 @@ else{
     // tell the user login failed
     echo json_encode(array("message" => "Login failed."));
 }
+?>

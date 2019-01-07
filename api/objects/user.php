@@ -12,6 +12,14 @@ class User{
     public $lastname;
     public $email;
     public $password;
+    public $contact_number;
+    public $address;
+    public $access_level;
+    public $access_code;
+    public $status;
+    public $avatar;
+    public $created;
+    public $modified;
  
     // constructor
     public function __construct($db){
@@ -26,16 +34,14 @@ class User{
                     firstname = :firstname,
                     lastname = :lastname,
                     email = :email,
-                    password = :password";
+                    password = :password,
+                    contact_number = :contact_number,
+                    address = :address,
+                    access_level = :access_level,
+                    status = :status";
     
         // prepare the query
         $stmt = $this->conn->prepare($query);
-    
-        // sanitize
-        $this->firstname=htmlspecialchars(strip_tags($this->firstname));
-        $this->lastname=htmlspecialchars(strip_tags($this->lastname));
-        $this->email=htmlspecialchars(strip_tags($this->email));
-        $this->password=htmlspecialchars(strip_tags($this->password));
     
         // bind the values
         $stmt->bindParam(':firstname', $this->firstname);
@@ -45,13 +51,19 @@ class User{
         // hash the password before saving to database
         $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
         $stmt->bindParam(':password', $password_hash);
+
+        $stmt->bindParam(':contact_number', $this->contact_number);
+        $stmt->bindParam(':address', $this->address);
+        $stmt->bindParam(':access_level', $this->access_level);
+        $stmt->bindParam(':status', $this->status);
     
         // execute the query, also check if query was successful
         if($stmt->execute()){
             return true;
+        }else{
+            print_r($stmt->errorInfo());
+            return false;
         }
-    
-        return false;
     }
     // check if given email exist in the database
     function emailExists(){
@@ -64,9 +76,6 @@ class User{
     
         // prepare the query
         $stmt = $this->conn->prepare( $query );
-    
-        // sanitize
-        $this->email=htmlspecialchars(strip_tags($this->email));
     
         // bind given email value
         $stmt->bindParam(1, $this->email);
@@ -91,10 +100,11 @@ class User{
     
             // return true because email exists in the database
             return true;
+        }else{
+            print_r($stmt->errorInfo());
+            // return false if email does not exist in the database
+            return false;
         }
-    
-        // return false if email does not exist in the database
-        return false;
     }
     // update a user record
     public function update(){
