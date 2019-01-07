@@ -61,11 +61,9 @@ if($jwt){
                     "email" => $user->email
                 )
             );
-            $jwt = JWT::encode($token, $key);
-            
+            $jwt = JWT::encode($token, $key);            
             // set response code
-            http_response_code(200);
-            
+            http_response_code(200);            
             // response in json format
             echo json_encode(
                     array(
@@ -73,8 +71,7 @@ if($jwt){
                         "jwt" => $jwt
                     )
             );
-        }
-        
+        }        
         // message if unable to update user
         else{
             // set response code

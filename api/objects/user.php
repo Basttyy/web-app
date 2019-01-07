@@ -109,6 +109,155 @@ class User{
             return false;
         }
     }
+    // read all user records
+    function readAll($from_record_num, $records_per_page){
+    
+        // query to read all user records, with limit clause for pagination
+        $query = "SELECT
+                    id,
+                    firstname,
+                    lastname,
+                    email,
+                    contact_number,
+                    access_level,
+                    created
+                FROM " . $this->table_name . "
+                ORDER BY id DESC
+                LIMIT ?, ?";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare( $query );
+    
+        // bind limit clause variables
+        $stmt->bindParam(1, $from_record_num, PDO::PARAM_INT);
+        $stmt->bindParam(2, $records_per_page, PDO::PARAM_INT);
+    
+        // execute query
+        $stmt->execute();
+    
+        // return values
+        return $stmt;
+    }
+    // used for paging users
+    public function countAll(){
+    
+        // query to select all user records
+        $query = "SELECT id FROM " . $this->table_name . "";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        // get number of rows
+        $num = $stmt->rowCount();
+    
+        // return row count
+        return $num;
+    }    
+    // used in email verification feature
+    function updateStatusByAccessCode(){
+    
+        // update query
+        $query = "UPDATE " . $this->table_name . "
+                SET status = :status
+                WHERE access_code = :access_code";
+    
+        // prepare the query
+        $stmt = $this->conn->prepare($query);
+    
+        // bind the values from the form
+        $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':access_code', $this->access_code);
+    
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }
+    
+        return false;
+    }
+    // check if given access_code exist in the database
+    function accessCodeExists(){
+    
+        // query to check if access_code exists
+        $query = "SELECT id
+                FROM " . $this->table_name . "
+                WHERE access_code = ?
+                LIMIT 0,1";
+    
+        // prepare the query
+        $stmt = $this->conn->prepare( $query );
+    
+        // bind given access_code value
+        $stmt->bindParam(1, $this->access_code);
+    
+        // execute the query
+        $stmt->execute();
+    
+        // get number of rows
+        $num = $stmt->rowCount();
+    
+        // if access_code exists
+        if($num>0){
+    
+            // return true because access_code exists in the database
+            return true;
+        }
+    
+        // return false if access_code does not exist in the database
+        return false;
+    
+    }
+    // used in forgot password feature
+    function updateAccessCode(){
+    
+        // update query
+        $query = "UPDATE
+                    " . $this->table_name . "
+                SET
+                    access_code = :access_code
+                WHERE
+                    email = :email";
+    
+        // prepare the query
+        $stmt = $this->conn->prepare($query);
+    
+        // bind the values from the form
+        $stmt->bindParam(':access_code', $this->access_code);
+        $stmt->bindParam(':email', $this->email);
+    
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }
+    
+        return false;
+    }
+    // used in forgot password feature
+    function updatePassword(){
+    
+        // update query
+        $query = "UPDATE " . $this->table_name . "
+                SET password = :password
+                WHERE access_code = :access_code";
+    
+        // prepare the query
+        $stmt = $this->conn->prepare($query);
+    
+        // bind the values from the form
+        $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+        $stmt->bindParam(':password', $password_hash);
+        $stmt->bindParam(':access_code', $this->access_code);
+    
+        // execute the query
+        if($stmt->execute()){
+            return true;
+        }
+    
+        return false;
+    }
     // update a user record
     public function update(){
     

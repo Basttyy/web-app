@@ -1,0 +1,16 @@
+#Fix Rewrite
+Options -Multiviews
+ 
+# Mod Rewrite
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /php_login_oop/
+ 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+ 
+# used for php pages such as "yoursite.com/login.php" will become "yoursite.com/login/"
+RewriteRule ^([a-z_]+)\/?$ $1.php [NC]
+#RewriteRule ^([a-z]+)\/([0-9]+)\/?$ parameter_letter_and_number.php?param=$1&param2=$2 [NC]
+#RewriteRule ^([0-9]+)\/?$ parameter_number.php?param=$1 [NC]
+#RewriteRule ^([0-9_]+)\/?$ parameter_number_and_underscore.php?param=$1 [NC]
