@@ -7,11 +7,11 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
  
 // required to decode jwt
-include_once 'config/core.php';
-include_once 'libs/php-jwt-master/src/BeforeValidException.php';
-include_once 'libs/php-jwt-master/src/ExpiredException.php';
-include_once 'libs/php-jwt-master/src/SignatureInvalidException.php';
-include_once 'libs/php-jwt-master/src/JWT.php';
+include_once '../config/core.php';
+include_once '../libs/php-jwt-master/src/BeforeValidException.php';
+include_once '../libs/php-jwt-master/src/ExpiredException.php';
+include_once '../libs/php-jwt-master/src/SignatureInvalidException.php';
+include_once '../libs/php-jwt-master/src/JWT.php';
 use \Firebase\JWT\JWT;
  
 // get posted data

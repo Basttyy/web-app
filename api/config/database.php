@@ -4,7 +4,7 @@ class Database{
  
     // specify your own database credentials
     private $host = "localhost";
-    private $db_name = "php_rest_api";
+    private $db_name = "web-app-clone";
     private $username = "root";
     private $password = "123456";
     public $conn;

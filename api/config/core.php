@@ -10,7 +10,7 @@ date_default_timezone_set('Africa/Lagos');
 $home_url = "www.{$_SERVER['SERVER_NAME']}/";
 $api_url = "{$home_url}api";
 //page given in url parameter, dafault is one
-$page = isset($_GET['page']) ? $_GET['page'] : "";
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
 //set number of records per page
 $records_per_page = 5;
 //calculate for the query LIMIT clause

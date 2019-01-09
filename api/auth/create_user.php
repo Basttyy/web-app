@@ -6,11 +6,11 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 //includes
-include_once 'libs/utils.php';
-include_once 'config/core.php';
+include_once '../libs/utils.php';
+include_once '../config/core.php';
 // files needed to connect to database
-include_once 'config/database.php';
-include_once 'objects/user.php';
+include_once '../config/database.php';
+include_once '../objects/user.php';
  
 // get database connection
 $database = new Database();
