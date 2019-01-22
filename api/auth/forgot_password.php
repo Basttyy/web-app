@@ -35,7 +35,7 @@ if($user->emailExists()){
 
         // send reset link
         $body="Hi there.<br /><br />";
-        $body.="Please click the following link to reset your password: {$home_url}reset_password/?access_code={$access_code}";
+        $body.="Please use the following link to reset your password: {$access_code}";
         $subject="Reset Password";
         $send_to_email=$user->email;
 
@@ -43,12 +43,12 @@ if($user->emailExists()){
             //set response code
             http_response_code(200);
             //display message email was sent
-            echo json_encode(array("message" => "Password reset link sent"));
+            echo json_encode(array("message" => "Password reset code sent"));
         }else{//if email sending failed
             //set response code
             http_response_code(500);
             //display message email wasn't sent
-            echo json_encode(array("message" => "Unable to send password reset link."));
+            echo json_encode(array("message" => "Unable to send password reset code."));
         }
     }else{//if access code update failed
         //set response code
@@ -59,6 +59,6 @@ if($user->emailExists()){
 }else{//if email does not exist
     //set response code
     http_response_code(404);
-    //display message email was sent
+    //display message email not exist
     echo json_encode(array("message" => "Your email cannot be found"));
 }

@@ -1,3 +1,6 @@
+body { padding-top: 5rem; }
+.starter-template { padding: 3rem 1.5rem; }
+#logout{ display:none; }
 .m-r-10px{ margin-right:10px; }
 .m-b-10px{ margin-bottom:10px; }
 .m-b-15px{ margin-bottom:15px; }

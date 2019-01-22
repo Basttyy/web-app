@@ -19,30 +19,60 @@ $db = $database->getConnection();
 // initialize objects
 $user = new User($db);
 
+//get data from client
+$data = json_decode(file_get_contents('php://input'));
+
 // get given access code
-if(isset($_GET['access_code'])){
-    $access_code = ($_GET['access_code']);
-    $_GET = array();
+if(isset($data->access_code)){
     // check if access code exists
-    $user->access_code = $access_code;
+    $user->access_code = $data->access_code;
 
-    $user->accessCodeExists() ? header("Location: {$home_url}/verify_password")  : die('Access code not found.');
-}else{
-    $data = json_decode(file_get_contents('php://input'));
-    // set values to object properties
-    $user->password = $data->password;
+    if($user->accessCodeExists()){
+        // set values to object properties
+        $user->password = $data->password;
 
-    // reset password
-    if($user->updatePassword()){
-        // set response code
-        http_response_code(200);
+        // reset password
+        if($user->updatePassword()){
+            // set response code
+            http_response_code(200);
 
-        // display message: user was created
-        echo json_encode(array("message" => "Password was reset."));
-    }
-    else{
-        //set response code
-        http_response_code(400);
-        echo json_encode(array("message" => "Unable to reset password"));
+            // display message: user was created
+            echo json_encode(array("message" => "Password was reset."));
+        }
+        else{
+            //set response code
+            http_response_code(400);
+            echo json_encode(array("message" => "Unable to reset password"));
+        }
+    }else{
+        http_response_code(401);
+        echo json_encode(array("message", "bad request"));
     }
 }
+// // get given access code
+// if(isset($_GET['access_code'])){
+//     $access_code = ($_GET['access_code']);
+//     $_GET = array();
+//     // check if access code exists
+//     $user->access_code = $access_code;
+
+//     $user->accessCodeExists() ? header("Location: {$home_url}/verify_password")  : die('Access code not found.');
+// }else{
+//     $data = json_decode(file_get_contents('php://input'));
+//     // set values to object properties
+//     $user->password = $data->password;
+
+//     // reset password
+//     if($user->updatePassword()){
+//         // set response code
+//         http_response_code(200);
+
+//         // display message: user was created
+//         echo json_encode(array("message" => "Password was reset."));
+//     }
+//     else{
+//         //set response code
+//         http_response_code(400);
+//         echo json_encode(array("message" => "Unable to reset password"));
+//     }
+// }

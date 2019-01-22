@@ -13,6 +13,9 @@ class User{
     public $email;
     public $password;
     public $contact_number;
+    public $country;
+    public $state;
+    public $postal_code;
     public $address;
     public $access_level;
     public $access_code;
@@ -36,6 +39,9 @@ class User{
     
         // prepare the query
         $stmt = $this->conn->prepare( $query );
+
+        // sanitize
+        $this->email=htmlspecialchars(strip_tags($this->email));
     
         // bind given email value
         $stmt->bindParam(1, $this->email);
@@ -78,6 +84,9 @@ class User{
                     email = :email,
                     password = :password,
                     contact_number = :contact_number,
+                    country = :country,
+                    state = :state,
+                    postal_code = :postal_code,
                     address = :address,
                     access_level = :access_level,
                     access_code = :access_code,
@@ -85,6 +94,20 @@ class User{
     
         // prepare the query
         $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->firstname = htmlspecialchars(strip_tags($this->firstname));
+        $this->lastname = htmlspecialchars(strip_tags($this->lastname));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->contact_number = htmlspecialchars(strip_tags($this->contact_number));
+        $this->country = htmlspecialchars(strip_tags($this->country));
+        $this->state = htmlspecialchars(strip_tags($this->state));
+        $this->postal_code = htmlspecialchars(strip_tags($this->postal_code));
+        $this->address = htmlspecialchars(strip_tags($this->address));
+        $this->password = htmlspecialchars(strip_tags($this->password));
+        $this->access_level = htmlspecialchars(strip_tags($this->access_level));
+        $this->access_code = htmlspecialchars(strip_tags($this->access_code));
+        $this->status = htmlspecialchars(strip_tags($this->status));
     
         // bind the values
         $stmt->bindParam(':firstname', $this->firstname);
@@ -96,6 +119,9 @@ class User{
         $stmt->bindParam(':password', $password_hash);
 
         $stmt->bindParam(':contact_number', $this->contact_number);
+        $stmt->bindParam(':country', $this->country);
+        $stmt->bindParam(':state', $this->state);
+        $stmt->bindParam(':postal_code', $this->postal_code);
         $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':access_level', $this->access_level);
         $stmt->bindParam(':access_code', $this->access_code);
@@ -166,6 +192,10 @@ class User{
     
         // prepare the query
         $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->status = htmlspecialchars(strip_tags($this->status));
+        $this->access_code = htmlspecialchars(strip_tags($this->access_code));
     
         // bind the values from the form
         $stmt->bindParam(':status', $this->status);
@@ -223,6 +253,10 @@ class User{
     
         // prepare the query
         $stmt = $this->conn->prepare($query);
+
+        //sanitize data
+        $this->access_code = htmlspecialchars(strip_tags($this->access_code));
+        $this->email = htmlspecialchars(strip_tags($this->email));
     
         // bind the values from the form
         $stmt->bindParam(':access_code', $this->access_code);
@@ -245,6 +279,10 @@ class User{
     
         // prepare the query
         $stmt = $this->conn->prepare($query);
+
+        //sanitize data
+        $this->password = htmlspecialchars(strip_tags($this->password));
+        $this->access_code = htmlspecialchars(strip_tags($this->access_code));
     
         // bind the values from the form
         $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
@@ -269,17 +307,38 @@ class User{
                 SET
                     firstname = :firstname,
                     lastname = :lastname,
-                    email = :email
+                    email = :email,
+                    contact_number = :contact_number,
+                    country = :country,
+                    state = :state,
+                    postal_code = :postal_code,
+                    address = :address,
                     {$password_set}
                 WHERE id = :id";
     
         // prepare the query
         $stmt = $this->conn->prepare($query);
+
+        //sanitize data
+        $this->firstname = htmlspecialchars(strip_tags($this->firstname));
+        $this->lastname = htmlspecialchars(strip_tags($this->lastname));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->contact_number = htmlspecialchars(strip_tags($this->contact_number));
+        $this->country = htmlspecialchars(strip_tags($this->country));
+        $this->state = htmlspecialchars(strip_tags($this->state));
+        $this->postal_code = htmlspecialchars(strip_tags($this->postal_code));
+        $this->address = htmlspecialchars(strip_tags($this->address));
+        $this->password = htmlspecialchars(strip_tags($this->password));
     
         // bind the values from the form
         $stmt->bindParam(':firstname', $this->firstname);
         $stmt->bindParam(':lastname', $this->lastname);
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':contact_number', $this->contact_number);
+        $stmt->bindParam(':country', $this->country);
+        $stmt->bindParam(':state', $this->state);
+        $stmt->bindParam(':postal_code', $this->postal_code);
+        $stmt->bindParam(':address', $this->address);
     
         // hash the password before saving to database
         if(!empty($this->password)){

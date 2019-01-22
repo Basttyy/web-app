@@ -1,7 +1,7 @@
 $(document).ready(function(){
  
     // show list of product on first load
-    showProductsFirstPage();
+    //showProductsFirstPage();
  
     // when a 'read products' button was clicked
     $(document).on('click', '.read-products-button', function(){

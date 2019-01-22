@@ -34,11 +34,9 @@ $jwt=isset($data->jwt) ? $data->jwt : "";
 if($jwt){
  
     // if decode succeed, show user details
-    try {
- 
+    try { 
         // decode jwt
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
- 
+        $decoded = JWT::decode($jwt, $key, array('HS256')); 
         // set user property values
         $user->firstname = $data->firstname;
         $user->lastname = $data->lastname;
@@ -46,7 +44,7 @@ if($jwt){
         $user->password = $data->password;
         $user->id = $decoded->data->id;
  
-        // create the product
+        // update the user
         if($user->update()){
             // we need to re-generate jwt because user details might be different
             $token = array(
