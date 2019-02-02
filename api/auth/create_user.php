@@ -23,7 +23,7 @@ $utils = new Utils();
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// set product property values
+// set product property values 
 $user->email = $data->email;
 $user->firstname = $data->firstname;
 $user->lastname = $data->lastname;
@@ -51,8 +51,8 @@ if($user->emailExists()){
         // send confimation email
         $send_to_email = $user->email;
         $body="Hi {$user->firstname} {$user->lastname}.<br /><br />";
-        $body.="Please use the following code to verify your email and login: {$user->access_code}";
-        //$body.="Please click the following link to verify your email and login: {$home_url}verify/?access_code={$user->access_code}";
+        //$body.="Please use the following code to verify your email and login: {$user->access_code}";
+        $body.="Please click the following link to verify your email and login: {$home_url}#verify-account/{$user->id}/{$user->access_code}";
         $subject="Account Confirmation";
     
         if($utils->sendEmailViaPhpMail($send_to_email, $subject, $body)){

@@ -297,8 +297,7 @@ class User{
         return false;
     }
     // update a user record
-    public function update(){
-    
+    function update(){    
         // if password needs to be updated
         $password_set=!empty($this->password) ? ", password = :password" : "";
     
@@ -312,7 +311,7 @@ class User{
                     country = :country,
                     state = :state,
                     postal_code = :postal_code,
-                    address = :address,
+                    address = :address
                     {$password_set}
                 WHERE id = :id";
     
@@ -328,7 +327,6 @@ class User{
         $this->state = htmlspecialchars(strip_tags($this->state));
         $this->postal_code = htmlspecialchars(strip_tags($this->postal_code));
         $this->address = htmlspecialchars(strip_tags($this->address));
-        $this->password = htmlspecialchars(strip_tags($this->password));
     
         // bind the values from the form
         $stmt->bindParam(':firstname', $this->firstname);
@@ -342,6 +340,7 @@ class User{
     
         // hash the password before saving to database
         if(!empty($this->password)){
+            $this->password = htmlspecialchars(strip_tags($this->password));
             $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
             $stmt->bindParam(':password', $password_hash);
         }

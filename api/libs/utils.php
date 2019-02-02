@@ -27,7 +27,7 @@ class Utils{
     // send email using built in php mailer
     public function sendEmailViaPhpMail($send_to_email, $subject, $body){
     
-        $from_name="Your Name";
+        $from_name="Abdulbasit Mamman";
         $from_email="basttyydev@gmail.com";
     
         $headers  = "MIME-Version: 1.0\r\n";

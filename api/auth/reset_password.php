@@ -41,13 +41,16 @@ if(isset($data->access_code)){
         }
         else{
             //set response code
-            http_response_code(400);
+            http_response_code(401);
             echo json_encode(array("message" => "Unable to reset password"));
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("message", "bad request"));
+        echo json_encode(array("message", "unauthorized request"));
     }
+}else{
+    http_response_code(400);
+    echo json_encode(array("message", "no token provided"));
 }
 // // get given access code
 // if(isset($_GET['access_code'])){

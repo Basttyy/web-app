@@ -6,7 +6,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
  
-// required to encode json web token
+// required to decode json web token
 include_once '../config/core.php';
 include_once '../libs/php-jwt-master/src/BeforeValidException.php';
 include_once '../libs/php-jwt-master/src/ExpiredException.php';
@@ -76,7 +76,7 @@ if($jwt){
             http_response_code(401);
         
             // show error message
-            echo json_encode(array("message" => "Unable to update user."));
+            echo json_encode(array("message" => "unable to update user"));
         }
     }
     // if decode fails, it means jwt is invalid
@@ -99,6 +99,6 @@ else{
     http_response_code(401);
  
     // tell the user access denied
-    echo json_encode(array("message" => "Access denied."));
+    echo json_encode(array("message" => "Empty data"));
 }
 ?>

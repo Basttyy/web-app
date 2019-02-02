@@ -1,101 +1,57 @@
+//global variables
+var home_page = '';
+var login_page = 'login';
+var update_profile_page = 'update-profile';
+var signup_page = 'signup';
+var profile_page = 'profile';
+
 $(document).ready(function(){
-    // show home page
-    showHomePage();
-    $(document).on('click', '#home', function(){
-        showHomePage();
-        clearResponse();
-    });
-    // app html
-    app_html="";
-    // navbar 
-    app_html += '<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">';
-        app_html += '<a class="navbar-brand" href="#">Navbar</a>';
-        app_html += '<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">';
-            app_html += '<span class="navbar-toggler-icon"></span>';
-        app_html += '</button>';
-        app_html += '<div class="collapse navbar-collapse" id="navbarNavAltMarkup">';
-            app_html += '<div class="navbar-nav">';
-                app_html += '<a class="nav-item nav-link" href="#" id="home">Home</a>';
-                app_html += '<a class="nav-item nav-link" href="#" id="update_account">Account</a>';
-                app_html += '<a class="nav-item nav-link" href="#" id="logout">Logout</a>';
-                app_html += '<a class="nav-item nav-link" href="#" id="login">Login</a>';
-                app_html += '<a class="nav-item nav-link" href="#" id="sign_up">Sign Up</a>';
-            app_html += '</div>';
-        app_html += '</div>';
-    app_html += '</nav>';
 
-    //container
-    app_html += '<main role="main" class="container starter-template">';
-
-        app_html += '<div class="row">';
-            app_html += '<div class="col">';        
-                //where prompt  messages will appear
-                app_html += '<div id="response"></div>';        
-                //where main content will appear
-                app_html += '<div id="content"></div>'
-            app_html += '</div>';
-        app_html += '</div>'        
-    app_html += '</main>'
- 
-    /*app_html+="<div class='container'>";
- 
-        app_html+="<div class='page-header'>";
-            app_html+="<h1 id='page-title'>Read Products</h1>";
-        app_html+="</div>";
- 
-        // this is where the contents will be shown.
-        app_html+="<div id='page-content'></div>";
- 
-    app_html+="</div>";*/
- 
-    // inject to 'app' in index.html
-    $("#app").html(app_html);
- 
 });
  
 // change page title
 function changePageTitle(page_title){
  
     // change page title
-    $('#page-title').text(page_title);
+    $('#panel-title').text(page_title);
  
     // change title tag
     document.title=page_title;
 }
 
-// show home page
-function showHomePage(){
+// // // show home page
+// // function showHomePage(){
         
-    // validate jwt to verify access
-    var jwt = getCookie('jwt');
-    $.post("api/auth/validate_token.php", JSON.stringify({ jwt:jwt })).done(function(result) {
+//     // validate jwt to verify access
+//     var jwt = getCookie('jwt');
+//     $.post("api/auth/validate_token.php", JSON.stringify({ jwt:jwt })).done(function(result) {
 
-        // if valid, show homepage
-        var html = `
-            <div class="card">
-                <div class="card-header">Welcome to Home!</div>
-                <div class="card-body">
-                    <h5 class="card-title">You are logged in.</h5>
-                    <p class="card-text">You won't be able to access the home and account pages if you are not logged in.</p>
-                </div>
-            </div>
-            `;
-        
-        $('#content').html(html);
-        showLoggedInMenu();
-    })
-    // show login page on error
-    .fail(function(result){
-        showLoginPage();
-        $('#response').html("<div class='alert alert-danger'>Please login to access the home page.</div>");
-    });
-}
+//         // if valid, show homepage
+//         var app_html = `
+//             <div class="card">
+//                 <div class="card-header">Welcome to Home!</div>
+//                 <div class="card-body">
+//                     <h5 class="card-title">You are logged in.</h5>
+//                     <p class="card-text">You won't be able to access the home and account pages if you are not logged in.</p>
+//                 </div>
+//             </div>
+//             `;            
+//         route('#', app_html);
+//         //$('#content').html(app_html);
+//         showLoggedInMenu();
+//     })
+//     // show login page on error
+//     .fail(function(result){
+//         showLoginPage();
+//         $('#response').html("<div class='alert alert-danger'>Please login to access the home page.</div>");
+//     });
+// // }
 
 // if the user is logged in
 function showLoggedInMenu(){
     // hide login and sign up from navbar & show logout button
-    $("#login, #sign_up").hide();
-    $("#logout").show();
+    $("#login").hide();
+    $("#logout, #update_profile, #signup").show();
 }
 
 // if the user is logged out
@@ -105,34 +61,34 @@ function showLoggedOutMenu(){
     $("#logout").hide();
 }
 
-//show login page
-function showLoginPage(){
+// //show login page
+// function showLoginPage(){
     
-    // remove jwt
-    setCookie("jwt", "", 1);
+//     // remove jwt
+//     setCookie("jwt", "", 1);
 
-    // login page html
-    var html = `
-        <h2>Login</h2>
-        <form id='login_form'>
-            <div class='form-group'>
-                <label for='email'>Email address</label>
-                <input type='email' class='form-control' id='email' name='email' placeholder='Enter email'>
-            </div>
+//     // login page html
+//     var app_html = `
+//         <h2>Login</h2>
+//         <form id='login_form'>
+//             <div class='form-group'>
+//                 <label for='email'>Email address</label>
+//                 <input type='email' class='form-control' id='email' name='email' placeholder='Enter email'>
+//             </div>
 
-            <div class='form-group'>
-                <label for='password'>Password</label>
-                <input type='password' class='form-control' id='password' name='password' placeholder='Password'>
-            </div>
+//             <div class='form-group'>
+//                 <label for='password'>Password</label>
+//                 <input type='password' class='form-control' id='password' name='password' placeholder='Password'>
+//             </div>
 
-            <button type='submit' class='btn btn-primary'>Login</button>
-        </form>
-        `;
-
-        $('#content').html(html);
-        clearResponse();
-        showLoggedOutMenu();
-}
+//             <button type='submit' class='btn btn-primary'>Login</button>
+//         </form>
+//     `;        
+//     clearResponse();
+//     route('login', app_html);
+//     //$('#content').html(app_html);
+//     showLoggedOutMenu();
+// }
 
 // function to set cookie
 function setCookie(cname, cvalue, exdays) {
@@ -182,3 +138,7 @@ $.fn.serializeObject = function()
 function clearResponse(){
     $('#response').html('');
 }
+
+// $('document').on('load', function(){
+//     router.updatePageLinks();
+// })
