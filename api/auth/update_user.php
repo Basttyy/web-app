@@ -41,6 +41,11 @@ if($jwt){
         $user->firstname = $data->firstname;
         $user->lastname = $data->lastname;
         $user->email = $data->email;
+        $user->country = $data->country;
+        $user->state = $data->state;
+        $user->postal_code = $data->postal_code;
+        $user->address = $data->address;
+        $user->contact_number = $data->contact_number;
         $user->password = $data->password;
         $user->id = $decoded->data->id;
  
@@ -56,7 +61,12 @@ if($jwt){
                     "id" => $user->id,
                     "firstname" => $user->firstname,
                     "lastname" => $user->lastname,
-                    "email" => $user->email
+                    "email" => $user->email,
+                    "country" => $user->country,
+                    "state" => $user->state,
+                    "postal_code" => $user->postal_code,
+                    "address" => $user->address,
+                    "contact_number" => $user->contact_number
                 )
             );
             $jwt = JWT::encode($token, $key);            

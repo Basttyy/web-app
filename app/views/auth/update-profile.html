@@ -1,4 +1,85 @@
-<h2>Update Account</h2>
+<div class="auth-box ">
+    <div class="content">
+        <div class="logo text-center"><img src="../../app/assets/img/logo-dark.png" alt="Powerstove Logo"></div>
+        
+        <div class="col-lg-4 col-md-4">
+        </div>        
+        <div class="col-lg-6 col-md-6">
+                <h2>Update Account</h2>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            </div>   
+        <form class="form-auth" id="sign_up_form" method="POST">
+            <div class="col-md-6 col-lg-6">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-user"></i></span>
+                    <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Firstname">
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-envelope"></i></span>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="email@example.com">
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-user"></i></span>
+                    <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Lastname">
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-lock"></i></span>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                </div>  
+            </div>
+
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-flag"></i></span>
+                    <select class="form-control" name="country" id="country">
+                        <option default="true">Country</option>
+                    </select>
+                </div>                                
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-location"></i></span>
+                    <select class="form-control" name="state" id="state">
+                        <option default="true">State</option>
+                    </select>
+                </div>  
+            </div>
+            <div class="col-lg-4 col-md-4">                                    
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-map-marker"></i></span>
+                    <select class="form-control" name="postal_code" id="postal_code">
+                        <option default="true">Postal Code</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="lnr lnr-home"></i></span>
+                        <textarea rows="1" class="form-control" name="address" id="address" placeholder="Street Address"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group input-group">
+                    <span class="input-group-addon"><i class="lnr lnr-phone"></i></span>
+                    <input type="phone" class="form-control" name="contact_number" id="contact_number" placeholder="+2348000000000">
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Add User</button>
+            </div>
+            <div class="col-lg-4 col-md-4"></div>
+        </form>
+    </div>
+<div class="clearfix"></div>
+</div>
+
+
+<!-- <h2>Update Account</h2>
 <form id='update_account_form'>
     <div class="form-group">
         <label for="firstname">Firstname</label>
@@ -23,4 +104,4 @@
     <button type='submit' class='btn btn-primary'>
         Save Changes
     </button>
-</form>
+</form> -->

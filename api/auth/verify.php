@@ -36,7 +36,7 @@ if($data->access-code){
     // redirect to login
     else{     
         // update status
-        $user->status=1;
+        $user->status='1';
         $user->updateStatusByAccessCode();
         
         http_response_code(200);

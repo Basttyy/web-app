@@ -16,18 +16,17 @@ let authenticate = (tokenUrl) => {
 let signup = (url, sign_up_form) =>{
     return new Promise((resolve, reject) =>{
         var form_data=JSON.stringify(sign_up_form.serializeObject());
+        alert(form_data);
         // submit form data to api
         $.ajax({
             url: url,
             type : "POST",
             contentType : 'application/json',
-            data : form_data,
-            success : function(response) {
-                resolve(response);
-            },
-            error: function(xhr, resp, text){
-                reject(text);
-            }
+            data : form_data
+        }).done((response) =>{
+            resolve(response);
+        }).fail((xhr, resp, text) =>{
+            reject(xhr);
         });
     });
 }

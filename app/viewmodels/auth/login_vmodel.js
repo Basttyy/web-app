@@ -20,7 +20,7 @@ $(document).ready(function(){
             )
             .catch(
                 function(error, resp, text){
-                    alert('Login failed');
+                    alert(error.responseJSON.message + 'Login failed');
                     login_form.find('input').val('');
                 }
             );

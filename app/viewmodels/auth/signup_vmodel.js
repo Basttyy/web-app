@@ -5,22 +5,49 @@ $(document).ready(function(){
         // get form data
         var sign_up_form=$(this);
         var url = "api/auth/create_user.php";
+        // alert(sign_up_form);
 
         signup(url, sign_up_form)
             .then(
                 function(response){
                     // if response is a success, tell the user it was a successful sign up & empty the input boxes
-                    //$('#response').html("<div class='alert alert-success'>Successful sign up. Please go to your email and confirm your account.</div>");
+                    alert(response.message);
                     sign_up_form.find('input').val('');
+                    $('textarea').val('');
+                    sign_up_form.find('select').val(1);
                 }
             )
             .catch(
-                function(text){
+                function(xhr, resp, text){
                     // on error, tell the user sign up failed
-                    $('#response').html("<div class='alert alert-danger'>"+JSON.parse(text)+". Please contact admin.</div>");
+                    alert(xhr.responseJSON.message + ". Please contact admin.");
                 }
             )
         return false;
+    });
+    $(document.body).on('change', '#country', function(e){
+        $('#state').empty();
+        $('#state').append($('<option default="true"></option>').html("State"));
+        if($('#country option:selected').val() != '1'){
+            var jsonurl = "app/assets/data/states/" + $('#country option:selected').val() + ".json";
+            $.getJSON(jsonurl, function(data){
+                $.each(data.states, function(i, val){
+                    $('#state').append($('<option></option>').val(val.toLowerCase()).html(val));
+                });
+            });
+        }
+    });
+    $(document.body).on('change', '#state', function(){        
+        $('#postal_code').empty();
+        $('#postal_code').append($('<option default="true"></option>').html("Postal Code"));
+        if($('#state option:selected').val() != '1'){
+            var jsonurl = "app/assets/data/states/codes/" + $('#state option:selected').val() + ".json";
+            $.getJSON(jsonurl, function(data){
+                $.each(data.codes, function(i, val){
+                    $('#postal_code').append($('<option></option>').val(val.toLowerCase()).html(val));
+                });
+            });
+        }
     });
 });
 
@@ -32,9 +59,16 @@ function showSignupForm(templateUrl){
         .then(
             function(response){
                 // if valid, show homepage
-                alert(response.message);
+                //alert(response.message);
                 loadHTML(templateUrl, 'content');
-                //showLoggedInMenu();
+                $.getJSON("app/assets/data/countries.json", function(data){
+                    setTimeout(function(){
+                        // Everything will have rendered here
+                        $.each(data.countries, function(i, val){
+                            $('#country').append($('<option></option>').val(val.toLowerCase()).html(val));
+                        });
+                    }, 5);
+                });
             }
         )
         .catch(

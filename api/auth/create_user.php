@@ -34,7 +34,7 @@ $user->state = $data->state;
 $user->postal_code = $data->postal_code;
 $user->address = $data->address;
 $user->access_level = 'admin';
-$user->status = 0;
+$user->status = '0';
 //access code for email verification
 $access_code = $utils->getToken();
 $user->access_code = $access_code;
@@ -51,10 +51,11 @@ if($user->emailExists()){
         // send confimation email
         $send_to_email = $user->email;
         $body="Hi {$user->firstname} {$user->lastname}.<br /><br />";
-        //$body.="Please use the following code to verify your email and login: {$user->access_code}";
+        //$body.="Please use the following code to verify your email and login: {$user->access_code}";  
         $body.="Please click the following link to verify your email and login: {$home_url}#verify-account/{$user->id}/{$user->access_code}";
         $subject="Account Confirmation";
-    
+
+        //send activation link to user
         if($utils->sendEmailViaPhpMail($send_to_email, $subject, $body)){
             // set response code
             http_response_code(200);
@@ -80,3 +81,21 @@ if($user->emailExists()){
         echo json_encode(array("message" => "Error! Unable to create user."));
     }
 }
+
+// $username = ($_POST['email']);
+// echo($_FILES);
+
+// uploadAvatar($username);
+
+// function uploadAvatar($username){
+//     if($_FILES['avatar']['tmp_name']){
+//         //files in the temporary location
+//         $temp_file = $_FILES['avatar']['tmp_name'];
+//         $ext = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION); //get uploaded image extension
+//         $filename = $username.md5(microtime()).".{$ext}";       //concatenate a random no and file ext to username
+
+//         $path = "app/assets/img/profilephotos/{$filename}";     // uploads/username.jpg
+//         move_uploaded_file($temp_file, $path);
+//     }
+//     return $path;
+// }

@@ -36,17 +36,21 @@ use \Firebase\JWT\JWT;
 if($email_exists && password_verify($data->password, $user->password)){
  
     $token = array(
-       "iss" => $iss,
-       "aud" => $aud,
-       "iat" => $iat,
-       "nbf" => $nbf,
-       "data" => array(
-           "id" => $user->id,
-           "firstname" => $user->firstname,
-           "lastname" => $user->lastname,
-           "email" => $user->email,
-           "access_level" => $user->access_level
-       )
+        "iss" => $iss,
+        "aud" => $aud,
+        "iat" => $iat,
+        "nbf" => $nbf,
+        "data" => array(
+            "id" => $user->id,
+            "firstname" => $user->firstname,
+            "lastname" => $user->lastname,
+            "email" => $user->email,
+            "country" => $user->country,
+            "state" => $user->state,
+            "postal_code" => $user->postal_code,
+            "address" => $user->address,
+            "contact_number" => $user->contact_number
+        )
     );
  
     // set response code
@@ -70,4 +74,3 @@ else{
     // tell the user login failed
     echo json_encode(array("message" => "Login failed."));
 }
-?>
