@@ -19,20 +19,22 @@ router = new Navigo(null, true, '#');
 router.on({
   // 'view' is the id of the div element inside which we render the HTML
   'login': () => {
-    prepareLogin();
-    loadHTML('./app/views/auth/login.html', 'hide-nav-view');
+    prepareLogin('./app/views/auth/login.html');
   },
   'signup': () => {
     showSignupForm('./app/views/auth/signup.html');
   },
-  'verify-account/:id/:access-code': () =>{
-
+  'verify-account/:access_code': (params) =>{
+    showVerifyAccount('./app/views/auth/verify-account.html', params);
   },
-  'reset-password': () =>{
-
+  'reset-password/:access_code': (params) =>{
+    showResetPassword('./app/views/auth/reset-password.html', params);
+  },
+  'forgot-password': () =>{
+    showRequestPassForm('./app/views/auth/forgot-password.html');
   },
   'view-profile': () =>{
-
+    
   },
   'update-profile': () => {
   showUpdateProfilePage('./app/views/auth/update-profile.html');
@@ -54,6 +56,6 @@ router.on(() => {
 });
 
 // set the 404 route
-router.notFound((query) => { $id('view').innerHTML = '<h3>Couldn\'t find the page you\'re looking for...</h3>'; });
+router.notFound((query) => { $id('hide-nav-view').innerHTML = '<h3>Couldn\'t find the page you\'re looking for...</h3>'; });
 
 router.resolve();

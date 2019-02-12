@@ -32,7 +32,7 @@ class User{
     function emailExists(){
     
         // query to check if email exists
-        $query = "SELECT id, firstname, lastname, contact_number, email, country, state, postal_code, address, password, access_level
+        $query = "SELECT id, firstname, lastname, contact_number, email, country, state, postal_code, address, status, password, access_level
                 FROM " . $this->table_name . "
                 WHERE email = ?
                 LIMIT 0,1";
@@ -68,6 +68,7 @@ class User{
             $this->country = $row['country'];
             $this->state = $row['state'];
             $this->postal_code = $row['postal_code'];
+            $this->status = $row['status'];
             $this->address = $row['address'];
             $this->access_level = $row['access_level'];
     
@@ -134,6 +135,7 @@ class User{
     
         // execute the query, also check if query was successful
         $status = $stmt->execute();
+        $this->id = $this->conn->lastInsertId();
         if($status){
             return true;
         }

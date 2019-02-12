@@ -35,7 +35,7 @@ if($user->emailExists()){
 
         // send reset link
         $body="Hi there.<br /><br />";
-        $body.="Please click the following link to reset your password: {$home_url}#reset-password/{$user->id}/{$user->access_code}";
+        $body.="Please click the following link to reset your password: {$home_url}#reset-password/{$user->access_code}";
         $subject="Reset Password";
         $send_to_email=$user->email;
 

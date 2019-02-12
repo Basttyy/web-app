@@ -1,5 +1,5 @@
 //make login https request to api
-let login = (url, form_data) =>{
+let requestReset = (url, form_data) =>{
     return new Promise((resolve, reject) => {
         //serialize the form data
         form_data = JSON.stringify(form_data.serializeObject());
@@ -20,7 +20,7 @@ let login = (url, form_data) =>{
     });
 }
 
-let prepareLogin = (url) => {
+let showRequestPassForm = (url) => {
     // remove jwt
     setCookie("jwt", "", 1);
     loadHTML(url, 'hide-nav-view');

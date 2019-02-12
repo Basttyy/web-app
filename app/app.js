@@ -4,6 +4,8 @@ var login_page = 'login';
 var update_profile_page = 'update-profile';
 var signup_page = 'signup';
 var profile_page = 'profile';
+var forgot_password_page = 'forgot-password';
+var reset_password_page = 'reset-password';
 
 $(document).ready(function(){
 

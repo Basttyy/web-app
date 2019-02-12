@@ -30,36 +30,39 @@ $(document).ready(function(){
             );
         return false;
     });
-    $(document.body).on('change', '#country', function(e){
-        $('#state').empty();
-        $('#state').append($('<option default="true"></option>').html("State"));
-        if($('#country option:selected').val() != '1'){
-            var jsonurl = "app/assets/data/states/" + $('#country option:selected').val() + ".json";
+    $(document.body).on('change', '#update_country', function(e){
+        $('#update_state').empty();
+        $('#update_state').append($('<option default="true"></option>').html("State"));
+        if($('#update_country option:selected').val() != '1'){
+            var jsonurl = "app/assets/data/states/" + $('#update_country option:selected').val() + ".json";
             $.getJSON(jsonurl, function(data){
                 $.each(data.states, function(i, val){
-                    $('#state').append($('<option></option>').val(val.toLowerCase()).html(val));
+                    $('#update_state').append($('<option></option>').val(val.toLowerCase()).html(val));
                 });
             });
         }
     });
-    $(document.body).on('change', '#state', function(){        
-        $('#postal_code').empty();
-        $('#postal_code').append($('<option default="true"></option>').html("Postal Code"));
-        if($('#state option:selected').val() != '1'){
-            var jsonurl = "app/assets/data/states/codes/" + $('#state option:selected').val() + ".json";
+    $(document.body).on('change', '#update_state', function(){        
+        $('#update_postal_code').empty();
+        $('#update_postal_code').append($('<option default="true"></option>').html("Postal Code"));
+        if($('#update_state option:selected').val() != '1'){
+            var jsonurl = "app/assets/data/states/codes/" + $('#update_state option:selected').val() + ".json";
             $.getJSON(jsonurl, function(data){
                 $.each(data.codes, function(i, val){
-                    $('#postal_code').append($('<option></option>').val(val.toLowerCase()).html(val));
+                    $('#update_postal_code').append($('<option></option>').val(val.toLowerCase()).html(val));
                 });
             });
         }
     });
-    $('#country').on('focus', function(){
-        $('#country').val(obj.country);
-    })
-    $('#state').on('focus', function(){
-        $('#state').val(obj.state);
-    })
+    $(document.body).on('mouseenter', '#update_country', function(){
+        $('#update_country').val(obj.country).change();
+    });
+    $(document.body).on('mouseenter', '#update_state', function(){
+        $('#update_state').val(obj.state).change();
+    });
+    $(document.body).on('mouseenter', '#update_postal_code', function(){
+        $('#update_postal_code').val(obj.postalCode).change();
+    });
 })
 
 var obj = {

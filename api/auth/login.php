@@ -31,46 +31,53 @@ include_once '../libs/php-jwt-master/src/ExpiredException.php';
 include_once '../libs/php-jwt-master/src/SignatureInvalidException.php';
 include_once '../libs/php-jwt-master/src/JWT.php';
 use \Firebase\JWT\JWT;
- 
-// check if email exists and if password is correct
-if($email_exists && password_verify($data->password, $user->password)){
- 
-    $token = array(
-        "iss" => $iss,
-        "aud" => $aud,
-        "iat" => $iat,
-        "nbf" => $nbf,
-        "data" => array(
-            "id" => $user->id,
-            "firstname" => $user->firstname,
-            "lastname" => $user->lastname,
-            "email" => $user->email,
-            "country" => $user->country,
-            "state" => $user->state,
-            "postal_code" => $user->postal_code,
-            "address" => $user->address,
-            "contact_number" => $user->contact_number
-        )
-    );
- 
-    // set response code
-    http_response_code(200);
- 
-    // generate jwt
-    $jwt = JWT::encode($token, $key);
-    echo json_encode(
-        array(
-            "message" => "Successful login.",
-            "jwt" => $jwt
-        )
-    ); 
-} 
-// login failed
-else{
- 
-    // set response code
-    http_response_code(401);
- 
-    // tell the user login failed
-    echo json_encode(array("message" => "Login failed."));
+
+if($user->status === '1'){
+    // check if email exists and if password is correct
+    if($email_exists && password_verify($data->password, $user->password)){
+    
+        $token = array(
+            "iss" => $iss,
+            "aud" => $aud,
+            "iat" => $iat,
+            "nbf" => $nbf,
+            "data" => array(
+                "id" => $user->id,
+                "firstname" => $user->firstname,
+                "lastname" => $user->lastname,
+                "email" => $user->email,
+                "country" => $user->country,
+                "state" => $user->state,
+                "postal_code" => $user->postal_code,
+                "address" => $user->address,
+                "contact_number" => $user->contact_number
+            )
+        );
+    
+        // set response code
+        http_response_code(200);
+    
+        // generate jwt
+        $jwt = JWT::encode($token, $key);
+        echo json_encode(
+            array(
+                "message" => "Successful login.",
+                "jwt" => $jwt
+            )
+        ); 
+    } 
+    // login failed
+    else{
+    
+        // set response code
+        http_response_code(401);
+    
+        // tell the user login failed
+        echo json_encode(array("message" => "Login failed."));
+    }
+}else{
+    //set response code
+    http_response_code(403);
+    //tell the user email not verified
+    echo json_encode(array("message" => "email not verified"));
 }

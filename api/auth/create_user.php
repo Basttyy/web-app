@@ -52,7 +52,7 @@ if($user->emailExists()){
         $send_to_email = $user->email;
         $body="Hi {$user->firstname} {$user->lastname}.<br /><br />";
         //$body.="Please use the following code to verify your email and login: {$user->access_code}";  
-        $body.="Please click the following link to verify your email and login: {$home_url}#verify-account/{$user->id}/{$user->access_code}";
+        $body.="Please click the following link to verify your email and login: {$home_url}#verify-account/{$user->access_code}";
         $subject="Account Confirmation";
 
         //send activation link to user

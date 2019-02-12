@@ -29,7 +29,7 @@ if(isset($data->access_code)){
 
     if($user->accessCodeExists()){
         // set values to object properties
-        $user->password = $data->password;
+        $user->password = $data->password1;
 
         // reset password
         if($user->updatePassword()){

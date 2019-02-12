@@ -41,9 +41,9 @@ if($jwt){
         $user->firstname = $data->firstname;
         $user->lastname = $data->lastname;
         $user->email = $data->email;
-        $user->country = $data->country;
-        $user->state = $data->state;
-        $user->postal_code = $data->postal_code;
+        $user->country = $data->update_country;
+        $user->state = $data->update_state;
+        $user->postal_code = $data->update_postal_code;
         $user->address = $data->address;
         $user->contact_number = $data->contact_number;
         $user->password = $data->password;
