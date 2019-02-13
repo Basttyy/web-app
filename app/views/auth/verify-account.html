@@ -1,8 +1,26 @@
 <div class="vertical-align-wrap">
     <div class="vertical-align-middle">
         <div class="auth-box ">
-            <div class="left verify_content">
+            <div class="left">
                 <div class="content">
+                    <div id="verify_success" class="alert alert-success" role="alert">
+                        <h3 class="alert-heading">Congratulations..!</h3>
+                        <p>Aww yeah, you have successfully confirmed your account with us. Please go to login page and enter the credentials you used during registeration to <a href="#login" class="" data-navigo>login to your account...</a></p>
+                        <hr>
+                        <p class="mb-0">Click the button below, to go to login page <a class="btn btn-primary" data-navigo href="#login" role="button">Login</a>.</p>
+                    </div>
+                    <div id="verify_info" class="alert alert-info" role="alert">
+                        <h3 class="alert-heading">Hang On..!</h3>
+                        <p>We are on it, please be patient while we try to verify your account. It usually should not take more than  a minute or two, if it takes too long you may click the link from your email again.</p>
+                        <hr>
+                        <p class="mb-0">If the problem persists, please contact our help center to get the issue resolved.</p>
+                    </div>
+                    <div id="verify_error" class="alert alert-danger" role="alert">
+                        <h3 class="alert-heading">This is sad..!</h3>
+                        <p>We tried, but we where unable to verify your account. Please try to click the verification link you recieved in your email again to try verification again.</p>
+                        <hr>
+                        <p class="mb-0">If the problem persists, please contact our help center to get the issue resolved.</p>
+                    </div>
                 </div>
             </div>
             <div class="right">

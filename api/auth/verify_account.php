@@ -23,12 +23,12 @@ $user = new User($db);
 //$user->access_code=isset($_GET['access_code']) ? $_GET['access_code'] : "";
 $data = json_decode(file_get_contents('php://input'));
 
-if($data->access-code){
+if(isset($data->access_code)){
     $user->access_code = $data->access_code;
     // verify if access code exists
     if(!$user->accessCodeExists()){
         http_response_code(401);
-        return json_encode(
+        echo json_encode(
             array("message" => "access code not found")
         );
         //die("ERROR: Access code not found.");
@@ -40,13 +40,13 @@ if($data->access-code){
         $user->updateStatusByAccessCode();
         
         http_response_code(200);
-        return json_encode(
+        echo json_encode(
             array("message" => "account verified")
         );
     }
 }else{
     http_response_code(400);
-    return json_encode(
+    echo json_encode(
         array("message" => "No token provided")
     );
 }
