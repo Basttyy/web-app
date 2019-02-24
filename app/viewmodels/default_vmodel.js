@@ -7,7 +7,7 @@ function showDefaultPage(url){
         .then(
             function(response){
                 // if valid, show homepage
-                loadHTML('./app/views/auth/default.html', 'content');
+                loadHTML('./app/views/default.html', 'content');
                 showLoggedInMenu();
             }
         ).catch(

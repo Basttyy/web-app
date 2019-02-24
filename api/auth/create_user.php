@@ -1,11 +1,20 @@
 <?php
 // required headers
-header("Access-Control-Allow-Origin: http://localhost/php_api_jwtAuth/");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: http://localhost:5500');
+    header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+    header('Access-Control-Allow-Headers: token, Content-Type');
+    header('Access-Control-Max-Age: 1728000');
+    header('Content-Length: 0');
+    header('Content-Type: text/plain');
+    die();
+}
+
+header('Access-Control-Allow-Origin: http://localhost:5500');
+header('Content-Type: application/json');
 //includes
+require_once 'vendor/autoload.php';
+use PayantNG\Payant;
 include_once '../libs/utils.php';
 include_once '../config/core.php';
 // files needed to connect to database
@@ -57,6 +66,23 @@ if($user->emailExists()){
 
         //send activation link to user
         if($utils->sendEmailViaPhpMail($send_to_email, $subject, $body)){
+            //catch errors if client not added to payant
+            if(($user->access_level == 'sadmin')||($user->access_level == 'admin')){
+                $type = 'Customer';
+            }
+            else if($user->access_level == 'vendor'){
+                $type = 'Vendor';
+            }
+            else if($user->access_level == 'Customer'){
+                $type = 'Customer';
+            }
+            $Payant = new Payant\Payant('13337b87ee76gew87fg87gfweugf87w7ge78f229c');
+            $client_data = ['first_name' => $user->firstname,
+                            'last_name' => $user->lastname,
+                            'email' => $user->email,
+                            'phone' => $user->contact_number,
+                            'type' => $type];
+                $Payant->addClient($client_data);
             // set response code
             http_response_code(200);
         

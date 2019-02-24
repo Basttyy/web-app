@@ -7,7 +7,7 @@ $(document).ready(function(){
         // get form data
         var login_form=$(this);
         
-        login("api/auth/login.php", login_form)
+        login(api_url + "api/auth/login.php", login_form)
             .then( //login success?
                 function(response){
                     // store jwt to cookie

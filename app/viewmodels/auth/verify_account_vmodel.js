@@ -1,5 +1,5 @@
 let showVerifyAccount = (url, params) => {
-    verifyUrl = "api/auth/verify_account.php";
+    verifyUrl = api_url + "api/auth/verify_account.php";
     // remove jwt
     setCookie("jwt", "", 1);
     loadHTML(url, 'hide-nav-view');

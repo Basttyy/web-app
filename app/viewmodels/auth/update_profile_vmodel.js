@@ -4,7 +4,7 @@ $(document).ready(function(){
         //get the form data
         var signup_form = $(this);
 
-        updateProfile('api/auth/update_user.php', signup_form)
+        updateProfile(api_url + 'api/auth/update_user.php', signup_form)
             .then(
                 function(response){
                     //$('#response').html("<div class='alert alert-success'>"+ response + ".</div>");
@@ -78,7 +78,7 @@ var obj = {
 
 function showUpdateProfilePage(updateUrl){
     //link to authenticate
-    var url = "api/auth/validate_token.php";
+    var url = api_url + "api/auth/validate_token.php";
     populateUpdateForm(url)
         .then(
             function(response){
@@ -93,20 +93,16 @@ function showUpdateProfilePage(updateUrl){
                 loadHTML(updateUrl, 'content');
                 setTimeout(function(){
                     // Everything will have rendered here  
-                    $.getJSON("app/assets/data/countries.json", function(data){
-                        $.each(data.countries, function(i, val){
-                            $('#country').append($('<option></option>').val(val.toLowerCase()).html(val));
-                        });
-                    });
                     $('#firstname').val(obj.firstname);
                     $('#lastname').val(obj.lastname);
                     $('#email').val(obj.email);
                     $('#address').val(obj.streetAddress);
                     $('#contact_number').val(obj.phone);
-                }, 15);
-                setTimeout(() => {
-                    $('#state option:selected').val(obj.state);
-                    $('#postal_code option:selected').val(obj.postalCode);
+                    $.getJSON("app/assets/data/countries.json", function(data){
+                        $.each(data.countries, function(i, val){
+                            $('#update_country').append($('<option></option>').val(val.toLowerCase()).html(val));
+                        });
+                    });
                 }, 15);
             }
         )

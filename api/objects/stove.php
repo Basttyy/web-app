@@ -1,6 +1,6 @@
 <?php
 //stove object
-class stove{
+class Stove{
     //database connection and table name
     private $conn;
     private $table_name = 'stoves';
@@ -32,7 +32,7 @@ class stove{
                     purchase_time = :purchase_time,
                     working_status = :working_status,
                     refurbished = :refurbished,
-                    $cycle_period = :cycle_period";
+                    cycle_period = :cycle_period";
     
         // prepare the query
         $stmt = $this->conn->prepare($query);

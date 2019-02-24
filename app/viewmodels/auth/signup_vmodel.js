@@ -4,7 +4,7 @@ $(document).ready(function(){
 
         // get form data
         var sign_up_form=$(this);
-        var url = "api/auth/create_user.php";
+        var url = api_url + "api/auth/create_user.php";
         // alert(sign_up_form);
 
         signup(url, sign_up_form)
@@ -53,7 +53,7 @@ $(document).ready(function(){
 
 function showSignupForm(templateUrl){
     //link to authenticate
-    tokenUrl = "api/auth/validate_token.php";
+    tokenUrl = api_url + "api/auth/validate_token.php";
 
     authenticate(tokenUrl)
         .then(

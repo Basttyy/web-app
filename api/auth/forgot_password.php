@@ -1,10 +1,17 @@
 <?php
 // required headers
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: http://localhost:5500');
+    header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+    header('Access-Control-Allow-Headers: token, Content-Type');
+    header('Access-Control-Max-Age: 1728000');
+    header('Content-Length: 0');
+    header('Content-Type: text/plain');
+    die();
+}
+
+header('Access-Control-Allow-Origin: http://localhost:5500');
+header('Content-Type: application/json');
 
 // core configuration
 include_once "../config/core.php"; 
@@ -35,7 +42,7 @@ if($user->emailExists()){
 
         // send reset link
         $body="Hi there.<br /><br />";
-        $body.="Please click the following link to reset your password: {$home_url}#reset-password/{$user->access_code}";
+        $body.="Please click the following link to reset your password: <a href='http://{$home_url}#reset-password/{$user->access_code}'>Reset Password</a>";
         $subject="Reset Password";
         $send_to_email=$user->email;
 

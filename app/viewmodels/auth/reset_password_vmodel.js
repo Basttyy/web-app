@@ -2,7 +2,7 @@ $(document).ready(() =>{
     $(document).on('submit','#reset_pass_form', function(){
         if($('#password1').val() == $('#password2').val()){
             var reset_pass_form = $(this);
-            var url = "api/auth/reset_password.php";
+            var url = api_url + "api/auth/reset_password.php";
 
             resetPassword(url, reset_pass_form)
             .then(

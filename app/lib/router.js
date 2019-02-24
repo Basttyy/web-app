@@ -52,7 +52,7 @@ router.on({
 
 // set the default route
 router.on(() => {
-  showDefaultPage('./app/views/auth/default.html');
+  showDefaultPage('./app/views/default.html');
 });
 
 // set the 404 route

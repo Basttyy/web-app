@@ -2,7 +2,7 @@ let authenticateDefault = (url) =>{
     return new Promise((resolve, reject) =>{
         var jwt = getCookie('jwt');
 
-        $.post("api/auth/validate_token.php", JSON.stringify({ jwt: jwt }))
+        $.post(api_url + "api/auth/validate_token.php", JSON.stringify({ jwt: jwt }))
             .done(function (response){
                 resolve(response);
             })

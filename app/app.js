@@ -1,4 +1,5 @@
 //global variables
+var api_url = 'http://web-app.test:8080/';
 var home_page = '';
 var login_page = 'login';
 var update_profile_page = 'update-profile';
@@ -10,7 +11,7 @@ var reset_password_page = 'reset-password';
 $(document).ready(function(){
 
 });
- 
+
 // change page title
 function changePageTitle(page_title){
  

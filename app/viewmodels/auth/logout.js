@@ -7,5 +7,5 @@ $(document).ready(function(){
 
 function logout(){
     showLoginPage();
-    $('#response').html("<div class='alert alert-info'>You are logged out.</div>");
+    //$('#response').html("<div class='alert alert-info'>You are logged out.</div>");
 }
