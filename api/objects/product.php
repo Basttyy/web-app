@@ -26,7 +26,7 @@ class Product{
                     " . $this->table_name . " p
                     LEFT JOIN
                         categories c
-                            ON p.category_id = c.id
+                            ON p.category_id = c.id 
                 ORDER BY
                     p.created DESC";
     
@@ -234,3 +234,23 @@ class Product{
         return $row['total_rows'];
     }
 }
+
+// <?php
+// Search engine using leventish distance, efficient than
+// // Users search terms is saved in $_POST['q']
+// $q = $_POST['q'];
+// // Create array for the names that are close to or match the search term
+// $results = array();
+// foreach($db->query('SELECT `id`, `name` FROM `employees`') as $name) {
+//   // Keep only relevant results
+//   // First takes the phonetic keys from each word, and compares the difference between them
+//   // If more than 3 charachters need to be added, deleted, or replaced, the word is thrown out
+//   // To get broader results, change the 3 to a higher number (and vice versa — for narrower results use a number below 3)
+//   if (levenshtein(metaphone($q), metaphone($name['name'])) < 3) {
+//     array_push($results,$name['name']);
+//   }
+// }
+// // Echo out results
+// foreach ($results as $result) {
+//   echo $result."\n";
+// }

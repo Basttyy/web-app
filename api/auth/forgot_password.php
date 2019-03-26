@@ -13,9 +13,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 header('Access-Control-Allow-Origin: http://localhost:5500');
 header('Content-Type: application/json');
 
+//includes
+// required to decode json web token
+include_once '../config/core.php';
+include_once '../libs/php-jwt-master/src/BeforeValidException.php';
+include_once '../libs/php-jwt-master/src/ExpiredException.php';
+include_once '../libs/php-jwt-master/src/SignatureInvalidException.php';
+include_once '../libs/php-jwt-master/src/JWT.php';
+use \Firebase\JWT\JWT;
+
 // core configuration
 include_once "../config/core.php"; 
-// include classes
+// classes
 include_once "../config/database.php";
 include_once '../objects/user.php';
 include_once "../libs/utils.php";

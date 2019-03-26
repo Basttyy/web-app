@@ -18,6 +18,8 @@ class User{
     public $postal_code;
     public $address;
     public $access_level;
+    public $agentid;
+    public $adminid;
     public $access_code;
     public $status;
     public $avatar;
@@ -27,12 +29,12 @@ class User{
     // constructor
     public function __construct($db){
         $this->conn = $db;
-    } 
+    }
     // check if given email exist in the database
     function emailExists(){
     
         // query to check if email exists
-        $query = "SELECT id, firstname, lastname, contact_number, email, country, state, postal_code, address, status, password, access_level
+        $query = "SELECT id, firstname, lastname, contact_number, email, agentid, adminid, country, state, postal_code, address, status, password, access_level
                 FROM " . $this->table_name . "
                 WHERE email = ?
                 LIMIT 0,1";
@@ -65,6 +67,8 @@ class User{
             $this->password = $row['password'];
             $this->contact_number = $row['contact_number'];
             $this->email = $row['email'];
+            $this->agentid = $row['agentid'];
+            $this->adminid = $row['adminid'];
             $this->country = $row['country'];
             $this->state = $row['state'];
             $this->postal_code = $row['postal_code'];
@@ -89,6 +93,8 @@ class User{
                     firstname = :firstname,
                     lastname = :lastname,
                     email = :email,
+                    agentid = :agentid,
+                    adminid = :adminid,
                     contact_number = :contact_number,
                     country = :country,
                     state = :state,
@@ -106,6 +112,8 @@ class User{
         $this->firstname = htmlspecialchars(strip_tags($this->firstname));
         $this->lastname = htmlspecialchars(strip_tags($this->lastname));
         $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->agentid = htmlspecialchars(strip_tags($this->agentid));
+        $this->adminid = htmlspecialchars(strip_tags($this->adminid));
         $this->contact_number = htmlspecialchars(strip_tags($this->contact_number));
         $this->country = htmlspecialchars(strip_tags($this->country));
         $this->state = htmlspecialchars(strip_tags($this->state));
@@ -120,6 +128,8 @@ class User{
         $stmt->bindParam(':firstname', $this->firstname);
         $stmt->bindParam(':lastname', $this->lastname);
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':agentid', $this->agentid);
+        $stmt->bindParam(':adminid', $this->adminid);
         $stmt->bindParam(':contact_number', $this->contact_number);
         $stmt->bindParam(':country', $this->country);
         $stmt->bindParam(':state', $this->state);
@@ -143,7 +153,39 @@ class User{
         return false;
     }
     // read all user records
-    function readAll($from_record_num, $records_per_page){
+    function readAll(){
+
+        // query to read all user records, with limit clause for pagination
+        $query = "SELECT
+                    id,
+                    firstname,
+                    lastname,
+                    email,
+                    contact_number,
+                    country,
+                    state,
+                    postal_code,
+                    address,
+                    access_level,
+                    agentid,
+                    adminid,
+                    status,
+                    avatar,
+                    created
+                FROM " . $this->table_name . "
+                ORDER BY id DESC";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare( $query );
+    
+        // execute query
+        $stmt->execute();
+    
+        // return values
+        return $stmt;
+    }
+    // read all user records
+    function readAllPaging($from_record_num, $records_per_page){
     
         // query to read all user records, with limit clause for pagination
         $query = "SELECT
@@ -152,7 +194,15 @@ class User{
                     lastname,
                     email,
                     contact_number,
+                    country,
+                    state,
+                    postal_code,
+                    address,
                     access_level,
+                    agentid,
+                    adminid,
+                    status,
+                    avatar,
                     created
                 FROM " . $this->table_name . "
                 ORDER BY id DESC
@@ -171,23 +221,121 @@ class User{
         // return values
         return $stmt;
     }
+    // search users
+    function search(){
+
+        // select all query
+        $query = "SELECT
+                    id,
+                    firstname,
+                    lastname,
+                    email,
+                    contact_number,
+                    country,
+                    state,
+                    postal_code,
+                    address,
+                    access_level,
+                    agentid,
+                    adminid,
+                    status,
+                    avatar,
+                    created
+                FROM
+                    " . $this->table_name . "
+                WHERE
+                    firstname LIKE ? OR lastname LIKE ? OR email LIKE ? OR contact_number LIKE ? OR access_level LIKE ? OR created LIKE ?
+                ORDER BY
+                    created DESC";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // sanitize
+        $keywords=htmlspecialchars(strip_tags($keywords));
+        $user->email=htmlspecialchars(strip_tags($user->email));
+        $keywords = "%{$keywords}%";
+    
+        // bind
+        $stmt->bindParam(1, $keywords);
+        $stmt->bindParam(2, $keywords);
+        $stmt->bindParam(3, $keywords);
+        $stmt->bindParam(4, $keywords);
+        $stmt->bindParam(5, $keywords);
+        $stmt->bindParam(6, $keywords);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+    // search users and paginate
+    function searchPaging($keywords, $from_record_num, $records_per_page){
+
+        // select all query
+        $query = "SELECT
+                    id,
+                    firstname,
+                    lastname,
+                    email,
+                    contact_number,
+                    country,
+                    state,
+                    postal_code,
+                    address,
+                    access_level,
+                    agentid,
+                    adminid,
+                    status,
+                    avatar,
+                    created
+                FROM
+                    " . $this->table_name . "
+                WHERE
+                    firstname LIKE ? OR lastname LIKE ? OR email LIKE ? OR contact_number LIKE ? OR access_level LIKE ? OR created LIKE ?
+                ORDER BY
+                    created DESC
+                LIMIT
+                    ?, ?";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // sanitize
+        $keywords=htmlspecialchars(strip_tags($keywords));
+        $user->email=htmlspecialchars(strip_tags($user->email));
+        $keywords = "%{$keywords}%";
+    
+        // bind
+        $stmt->bindParam(1, $keywords);
+        $stmt->bindParam(2, $keywords);
+        $stmt->bindParam(3, $keywords);
+        $stmt->bindParam(4, $keywords);
+        $stmt->bindParam(5, $keywords);
+        $stmt->bindParam(6, $keywords);
+        $stmt->bindParam(7, $records_per_page, PDO::PARAM_INT);
+        $stmt->bindParam(8, $from_record_num, PDO::PARAM_INT);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
     // used for paging users
     public function countAll(){
     
         // query to select all user records
-        $query = "SELECT id FROM " . $this->table_name . "";
+        $query = "SELECT COUNT(*) as total_rows FROM " . $this->table_name . "";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
     
         // execute query
         $stmt->execute();
-    
-        // get number of rows
-        $num = $stmt->rowCount();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
     
         // return row count
-        return $num;
+        return $row['total_rows'];
     }    
     // used in email verification feature
     function updateStatusByAccessCode(){
@@ -304,7 +452,7 @@ class User{
         return false;
     }
     // update a user record
-    function update(){    
+    function update(){     
         // if password needs to be updated
         $password_set=!empty($this->password) ? ", password = :password" : "";
     
