@@ -8,6 +8,8 @@ class Payment{
     //object properties
     public $id;
     public $email;
+    public $agentid;
+    public $adminid;
     public $due_date;
     public $item;
     public $description;
@@ -23,11 +25,13 @@ class Payment{
         $this->conn = $db;
     }
     // create new payment record
-    function create(){    
+    function create(){
         // insert query
         $query = "INSERT INTO " . $this->table_name . "
                 SET
-                    email = :email,                    
+                    email = :email,
+                    agentid = :agentid,
+                    adminid = :adminid,           
                     item = :item,
                     description = :description,
                     unit_cost = :unit_cost,
@@ -42,6 +46,8 @@ class Payment{
 
         // sanitize
         $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->agentid = htmlspecialchars(strip_tags($this->agentid));
+        $this->adminid = htmlspecialchars(strip_tags($this->adminid));
         $this->due_date = htmlspecialchars(strip_tags($this->due_date));
         $this->item = htmlspecialchars(strip_tags($this->item));
         $this->description = htmlspecialchars(strip_tags($this->description));
@@ -53,6 +59,8 @@ class Payment{
     
         // bind the values
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':agentid', $this->agentid);
+        $stmt->bindParam(':adminid', $this->adminid);
         $stmt->bindParam(':item', $this->item);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':unit_cost', $this->unit_cost);
@@ -77,8 +85,8 @@ class Payment{
         $query = "SELECT
                     id,
                     email,
-                    agent,
-                    admin,
+                    agentid,
+                    adminid,
                     description,
                     unit_cost,
                     quantity,
@@ -107,8 +115,8 @@ class Payment{
         $query = "SELECT
                     id,
                     email,
-                    agent,
-                    admin,
+                    agentid,
+                    adminid,
                     description,
                     unit_cost,
                     quantity,
@@ -142,8 +150,8 @@ class Payment{
         $query = "SELECT
                     id,
                     email,
-                    agent,
-                    admin,
+                    agentid,
+                    adminid,
                     description,
                     unit_cost,
                     quantity,
@@ -190,8 +198,8 @@ class Payment{
         $query = "SELECT
                     id,
                     email,
-                    agent,
-                    admin,
+                    agentid,
+                    adminid,
                     description,
                     unit_cost,
                     quantity,

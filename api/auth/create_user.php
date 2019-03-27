@@ -70,11 +70,11 @@ if(isset($data->jwt)){
             $user->adminid = $decoded->data->agentid;
             //set access level based on parent access level
             switch($decoded->data->access_level){
-                case 'superadmin':
+                case 'sadmin':
                     $user->access_level = 'admin';
                     break;
                 case 'admin':
-                    $user->access_level = 'agent';
+                    $user->access_level = 'vendor';
                     break;
                 case 'agent':
                     $user->access_level = 'user';

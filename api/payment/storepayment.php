@@ -44,10 +44,10 @@ $payment = new Payment($db);
 // get access code
 //$user->access_code=isset($_GET['access_code']) ? $_GET['access_code'] : "";
 $data = json_decode(file_get_contents('php://input'));
-$jwt = isset($data->jwt) ? $data->jwt : '';
 
 //make sure the invoce data is set
-if(isset($data->invoice_ref)){
+if(isset($data->jwt)){
+    $jwt = $data->jwt;
     try{
         //decode jwt
         $decoded = JWT::decode($jwt, $key, array('HS256'));
@@ -57,9 +57,11 @@ if(isset($data->invoice_ref)){
         if($payment->updateTransStatus()){
             if($data->paytype == 'purchase'){
                 //get next available stove to be paired to user
-                if($stove->getNextPair()){
+                if($stove->getNextPair() && $user->emailExists($data->email)){
                     $stove->owned = 1;
                     $stove->email = $data->email;
+                    $stove->agentid = $user->agentid;
+                    $stove->adminid = $user->adminid;
                     $stove->payment_status = $data->status;
                     $stove->payment_time = DateTime('d/m/Y', microtime);
                     $stove->purchase_time = DateTime('d/m/Y:h/i/s', microtime);
