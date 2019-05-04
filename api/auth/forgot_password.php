@@ -55,7 +55,7 @@ if($user->emailExists()){
         $subject="Reset Password";
         $send_to_email=$user->email;
 
-        if($utils->sendEmailViaPhpMail($send_to_email, $subject, $body)){
+        if($utils->sendEmailViaSendgrid($send_to_email, $subject, $body)){
             //set response code
             http_response_code(200);
             //display message email was sent

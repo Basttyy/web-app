@@ -11,4 +11,5 @@ return array(
     'a0edc8309cc5e1d60e3047b5df6b7052' => $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     'e1ef96dc05f8d7fe6cbf34e42e801c74' => $vendorDir . '/jonathanitakpe/payantng-php/src/PayantNG/Support/helpers.php',
+    '3f8bdd3b35094c73a26f0106e3c0f8b2' => $vendorDir . '/sendgrid/sendgrid/lib/SendGrid.php',
 );

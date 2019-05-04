@@ -1,6 +1,8 @@
 {
     "require": {
         "guzzlehttp/guzzle": "^6.3",
-        "jonathanitakpe/payantng-php": "^0.1.4"
+        "jonathanitakpe/payantng-php": "^0.1.4",
+        "sendgrid/sendgrid": "^7.2",
+        "phpmailer/phpmailer": "^6.0"
     }
 }

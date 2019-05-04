@@ -8,7 +8,7 @@ date_default_timezone_set('Africa/Lagos');
 
 // home page url
 $prod_url = "www.{$_SERVER['SERVER_NAME']}/";
-$dev_url = "{$_SERVER['SERVER_NAME']}:8080/";
+$dev_url = "http://{$_SERVER['SERVER_NAME']}:8080/";
 $home_url = $dev_url;
 $api_url = "{$home_url}api";
 //page given in url parameter, dafault is one

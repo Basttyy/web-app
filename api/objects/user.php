@@ -149,7 +149,26 @@ class User{
         if($status){
             return true;
         }
-        //print_r($stmt->errorInfo());
+        print_r($stmt->errorInfo());
+        return false;
+    }
+    //delete a row from record
+    function deleteRow($id){
+        //query to delete row from the users table
+        $query = "DELETE
+                FROM
+                    users
+                WHERE
+                    id = ?
+                ";
+        //prepare query statement
+        $stmt = $this->conn->prepare($query);
+        //bind statement parameters
+        $stmt->bindparam(1, $id);
+        $status = $stmt->execute();
+        if($status)
+            return true;
+        print_r($stmt->errorInfo());
         return false;
     }
     // read all user records

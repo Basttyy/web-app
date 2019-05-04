@@ -62,7 +62,9 @@ if($user->emailExists()){
                     "state" => $user->state,
                     "postal_code" => $user->postal_code,
                     "address" => $user->address,
-                    "contact_number" => $user->contact_number
+                    "contact_number" => $user->contact_number,
+                    "agentid" => $user->agentid,
+                    "access_level" => $user->access_level
                 )
             );
         

@@ -44,15 +44,14 @@ $payment = new Payment($db);
 $data = json_decode(file_get_contents('php://input'));
 
 if(isset($data->jwt)){
-    $jwt = $data->jwt;
+    //$jwt = $data->jwt;
     try{
-        $decoded = JWT::decode($jwt, $key, 'HS256');
+        //$decoded = JWT::decode($jwt, $key, 'HS256');
         $user->email = $data->email;
         if($user->emailExists()){
             //initialize payant api service
             $Payant = new Payant\Payant("", true);
-            $payment->email = $data->email;
-            $payment->agentid = 
+            $payment->email = $user->email;
             $payment->order_type = $data->order_type;
             $payment->status = "unpaid";                //Options: unpaid, pending, success, failed
             $payment->agentid = $user->agentid;
