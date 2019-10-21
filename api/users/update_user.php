@@ -80,7 +80,7 @@ if(isset($data->jwt)){
             // response in json format
             echo json_encode(
                     array(
-                        "message" => "User was updated.",
+                        "message" => "user was updated.",
                         "jwt" => $jwt
                     )
             );
@@ -102,7 +102,7 @@ if(isset($data->jwt)){
     
         // show error message
         echo json_encode(array(
-            "message" => "Access denied.",
+            "message" => "access denied.",
             "error" => $e->getMessage()
         ));
     }

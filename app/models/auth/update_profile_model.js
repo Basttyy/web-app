@@ -1,17 +1,9 @@
-let updateProfile = (url, form_data) => {
+let updateProfile = (url, form_data_obj) => {
     return new Promise((resolve, reject) =>{
-
-        // validate jwt to verify access
-        var jwt = getCookie('jwt');
-
-        // serialize the form data
-        var form_data_obj = form_data.serializeObject()
-        
-        // add jwt on the object
-       form_data_obj.jwt = jwt;
         
         // convert object to json string
         var json_form_data=JSON.stringify(form_data_obj);
+        alert(json_form_data);
 
         // submit form data to api
         $.ajax({

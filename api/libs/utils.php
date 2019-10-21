@@ -10,7 +10,7 @@ class Utils{
         $codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
         $codeAlphabet.= "0123456789";
         for($i=0;$i<$length;$i++){
-            $token .= $codeAlphabet[$this->crypto_rand_secure(0,strlen($codeAlphabet))];
+            $token .= $codeAlphabet[random_int(0,strlen($codeAlphabet)-1)];
         }
         return $token;
     }
@@ -18,7 +18,7 @@ class Utils{
     function crypto_rand_secure($min, $max) {
         $range = $max - $min;
         if ($range < 0) return $min; // not so random...
-        $log = log($range, 2);
+        $log = ceil(log($range, 2));
         $bytes = (int) ($log / 8) + 1; // length in bytes
         $bits = (int) $log + 1; // length in bits
         $filter = (int) (1 << $bits) - 1; // set all lower bits to 1
@@ -35,12 +35,12 @@ class Utils{
 
         try {
             //Server settings
-            $mail->SMTPDebug = 2;                                       // Enable verbose debug output
+            //$mail->SMTPDebug = 2;                                       // Enable verbose debug output
             $mail->isSMTP();                                            // Set mailer to use SMTP
             $mail->Host       = 'mail.powerstove.com.ng';  // Specify main and backup SMTP servers
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
             $mail->Username   = 'noreply@powerstove.com.ng';                     // SMTP username
-            $mail->Password   = '';                               // SMTP password eqo371Tx9ZAU
+            $mail->Password   = 'eqo371Tx9ZAU';                               // SMTP password eqo371Tx9ZAU
             $mail->Port       = 587;                                   // TCP port to connect to
             //$mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
             $mail->isHTML(true);
@@ -71,7 +71,7 @@ class Utils{
         $email->addContent(
             "text/html", $body
         );
-        $sendgrid = new \SendGrid('');
+        $sendgrid = new \SendGrid('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');
         try {
             $response = $sendgrid->send($email);
             print $response->statusCode() . "\n";

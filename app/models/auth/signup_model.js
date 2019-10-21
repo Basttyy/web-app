@@ -13,9 +13,9 @@ let authenticate = (tokenUrl) => {
     })
 }
 
-let signup = (url, sign_up_form) =>{
+let signup = (url, sign_up_form_obj) =>{
     return new Promise((resolve, reject) =>{
-        var form_data=JSON.stringify(sign_up_form.serializeObject());
+        var form_data=JSON.stringify(sign_up_form_obj);
         alert(form_data);
         // submit form data to api
         $.ajax({

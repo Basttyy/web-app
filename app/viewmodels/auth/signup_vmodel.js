@@ -5,9 +5,12 @@ $(document).ready(function(){
         // get form data
         var sign_up_form=$(this);
         var url = api_url + "api/auth/create_user.php";
+        var jwt = getCookie('jwt');
         // alert(sign_up_form);
+        sign_up_form_obj = sign_up_form.serializeObject();
+        sign_up_form_obj.jwt = jwt;
 
-        signup(url, sign_up_form)
+        signup(url, sign_up_form_obj)
             .then(
                 function(response){
                     // if response is a success, tell the user it was a successful sign up & empty the input boxes

@@ -50,7 +50,7 @@ if(isset($data->jwt)){
         $user->email = $data->email;
         if($user->emailExists()){
             //initialize payant api service
-            $Payant = new Payant\Payant("", true);
+            $Payant = new Payant\Payant("cefed6114ffbbbbb6a6d808da17e5f950797fa59dab6010143dd999d", true);
             $payment->email = $user->email;
             $payment->order_type = $data->order_type;
             $payment->status = "unpaid";                //Options: unpaid, pending, success, failed

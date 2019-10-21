@@ -13,7 +13,7 @@ class Stove{
     public $email;
     public $agentid;
     public $adminid;
-    public $payment_status;
+    public $paidstatus;
     public $payment_time;
     public $purchase_time;
     public $working_status;
@@ -35,7 +35,7 @@ class Stove{
                     email = :email,
                     agentid = :agentid,
                     adminid = :adminid,
-                    payment_status = :payment_status,
+                    paidstatus = :paidstatus,
                     payment_time = :payment_time,
                     purchase_time = :purchase_time,
                     working_status = :working_status,
@@ -52,7 +52,7 @@ class Stove{
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->agentid = htmlspecialchars(strip_tags($this->agentid));
         $this->adminid = htmlspecialchars(strip_tags($this->adminid));
-        $this->payment_status = htmlspecialchars(strip_tags($this->payment_status));
+        $this->paidstatus = htmlspecialchars(strip_tags($this->paidstatus));
         $this->payment_time = htmlspecialchars(strip_tags($this->payment_time));
         $this->purchase_time = htmlspecialchars(strip_tags($this->purchase_time));
         $this->working_status = htmlspecialchars(strip_tags($this->working_status));
@@ -66,7 +66,7 @@ class Stove{
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':agentid', $this->agentid);
         $stmt->bindParam(':adminid', $this->adminid);
-        $stmt->bindParam(':payment_status', $this->payment_status);
+        $stmt->bindParam(':paidstatus', $this->paidstatus);
         $stmt->bindParam(':payment_time', $this->payment_time);
         $stmt->bindParam(':purchase_time', $this->purchase_time);
         $stmt->bindParam(':working_status', $this->working_status);
@@ -82,6 +82,43 @@ class Stove{
         }
     }
     // read the next stove not paired
+    function getPaymentStatus(){    
+        // query to read all user records, with limit clause for pagination
+        $query = "SELECT
+                    id,
+                    paidstatus
+                FROM " . $this->table_name . "
+                WHERE imei = ?";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare( $query );
+
+        //sanitize data
+        $this->imei = htmlspecialchars(strip_tags($this->imei));
+
+        //bind statement variables
+        $stmt->bindParam(1, $this->imei);
+    
+        // execute query
+        $stmt->execute();
+
+        //get number of rows
+        $num = $stmt->rowCount();
+
+        //set the next stove in the list
+        if($num>0){
+            //get record details/values
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            //assign values to object properties
+            $this->paidstatus = $row['paidstatus'];
+            $this->id = $row['id'];
+
+            return true;
+        }else{
+            return false;
+        }
+    } 
+    // read the next stove not paired
     function getNextPair(){    
         // query to read all user records, with limit clause for pagination
         $query = "SELECT
@@ -92,7 +129,7 @@ class Stove{
                     email,
                     agentid,
                     adminid,
-                    payment_status,
+                    paidstatus,
                     payment_time,
                     purchase_time,
                     working_status,
@@ -143,7 +180,7 @@ class Stove{
                     email,
                     agentid,
                     adminid,
-                    payment_status,
+                    paidstatus,
                     payment_time,
                     purchase_time,
                     working_status,
@@ -173,7 +210,7 @@ class Stove{
                     email,
                     agentid,
                     adminid,
-                    payment_status,
+                    paidstatus,
                     payment_time,
                     purchase_time,
                     working_status,
@@ -208,7 +245,7 @@ class Stove{
                     email,
                     agentid,
                     adminid,
-                    payment_status,
+                    paidstatus,
                     payment_time,
                     purchase_time,
                     working_status,
@@ -217,7 +254,7 @@ class Stove{
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    imei LIKE ? OR phone_num LIKE ? OR email LIKE ? OR payment_status LIKE ? OR cycle_period LIKE ?
+                    imei LIKE ? OR phone_num LIKE ? OR email LIKE ? OR paidstatus LIKE ? OR cycle_period LIKE ?
                 ORDER BY
                     created DESC";
     
@@ -253,7 +290,7 @@ class Stove{
                     email,
                     agentid,
                     adminid,
-                    payment_status,
+                    paidstatus,
                     payment_time,
                     purchase_time,
                     working_status,
@@ -262,7 +299,7 @@ class Stove{
                 FROM
                     " . $this->table_name . "
                 WHERE
-                    imei LIKE ? OR phone_num LIKE ? OR email LIKE ? OR payment_status LIKE ? OR cycle_period LIKE ?
+                    imei LIKE ? OR phone_num LIKE ? OR email LIKE ? OR paidstatus LIKE ? OR cycle_period LIKE ?
                 ORDER BY
                     created DESC
                 LIMIT
@@ -310,18 +347,18 @@ class Stove{
     function updatePaymentStatus(){    
         // update query
         $query = "UPDATE " . $this->table_name . "
-                SET payment_status = :payment_status
+                SET paidstatus = :paidstatus
                 WHERE id = :id";
     
         // prepare the query
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->payment_status = htmlspecialchars(strip_tags($this->payment_status));
+        $this->paidstatus = htmlspecialchars(strip_tags($this->paidstatus));
         $this->username = htmlspecialchars(strip_tags($this->username));
     
         // bind the values from the form
-        $stmt->bindParam(':payment_status', $this->payment_status);
+        $stmt->bindParam(':paidstatus', $this->paidstatus);
         $stmt->bindParam(':id', $this->id);
     
         // execute the query
@@ -360,7 +397,7 @@ class Stove{
                 SET
                     owned = :owned,
                     email = :email,
-                    payment_status = :payment_status,
+                    paidstatus = :paidstatus,
                     payment_time = :payment_time,
                     purchase_time = :purchase_time,
                     cycle_period = :cycle_period
@@ -372,7 +409,7 @@ class Stove{
         //sanitize data
         $this->owned = htmlspecialchars(strip_tags($this->owned));
         $this->username = htmlspecialchars(strip_tags($this->username));
-        $this->payment_status = htmlspecialchars(strip_tags($this->payment_status));
+        $this->paidstatus = htmlspecialchars(strip_tags($this->paidstatus));
         $this->payment_time = htmlspecialchars(strip_tags($this->payment_time));
         $this->purchase_time = htmlspecialchars(strip_tags($this->purchase_time));
         // $this->working_status = htmlspecialchars(strip_tags($this->working_status));
@@ -382,7 +419,7 @@ class Stove{
         // bind the values from the form
         $stmt->bindParam(':owned', $this->owned);
         $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':payment_status', $this->payment_status);
+        $stmt->bindParam(':paidstatus', $this->paidstatus);
         $stmt->bindParam(':payment_time', $this->payment_time);
         $stmt->bindParam(':purchase_time', $this->purchase_time);
         // $stmt->bindParam(':working_status', $this->working_status);

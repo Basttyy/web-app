@@ -44,11 +44,12 @@ if(isset($data->jwt)){
         //check if the user email is in database
         if(($user->emailExists($decoded->data->email))&&($decoded->data->access_level == 'superadmin')){
             $stove->imei = $data->imei;
+            $stove->phone_num = $data->phone_num;
             $stove->owned = 0;
             $stove->email = '';
             $stove->agentid = '';
             $stove->adminid = '';
-            $stove->payment_status = '';
+            $stove->paidstatus = '';
             $stove->payment_time = null;
             $stove->purchase_time = null;
             $stove->working_status = 0;

@@ -1,3 +1,4 @@
+<?php
 <!DOCTYPE html>
 <html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,7 +22,7 @@
 	<link rel="icon" type="image/png" sizes="96x96" href="app/assets/img/company_img/powerstove-logo.png"> 
 
 </head>
-<body>
+	<body>
     <!--Begin Wrapper-->
     <div id="wrapper">
     <!--Begin Hide Nav View-->

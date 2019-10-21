@@ -3,8 +3,11 @@ $(document).ready(function(){
     $(document).on('submit', '#update_account_form', function(){
         //get the form data
         var signup_form = $(this);
+        var jwt = getCookie('jwt');
+        var signup_form_obj = signup_form.serializeObject();
+        signup_form_obj.jwt = jwt;
 
-        updateProfile(api_url + 'api/auth/update_user.php', signup_form)
+        updateProfile(api_url + 'api/users/update_user.php', signup_form_obj)
             .then(
                 function(response){
                     //$('#response').html("<div class='alert alert-success'>"+ response + ".</div>");

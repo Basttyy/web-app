@@ -31,7 +31,7 @@ class User{
         $this->conn = $db;
     }
     // check if given email exist in the database
-    function emailExists(){
+    function emailExists($email){
     
         // query to check if email exists
         $query = "SELECT id, firstname, lastname, contact_number, email, agentid, adminid, country, state, postal_code, address, status, password, access_level
@@ -46,7 +46,7 @@ class User{
         $this->email=htmlspecialchars(strip_tags($this->email));
     
         // bind given email value
-        $stmt->bindParam(1, $this->email);
+        $stmt->bindParam(1, $email);
     
         // execute the query
         $stmt->execute();
@@ -79,7 +79,7 @@ class User{
             // return true because email exists in the database
             return true;
         }else{
-            //print_r($stmt->errorInfo());
+            print_r($stmt->errorInfo());
             // return false if email does not exist in the database
             return false;
         }

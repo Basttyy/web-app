@@ -8,9 +8,11 @@ date_default_timezone_set('Africa/Lagos');
 
 // home page url
 $prod_url = "www.{$_SERVER['SERVER_NAME']}/";
-$dev_url = "http://{$_SERVER['SERVER_NAME']}:8080/";
+$dev_url = "https://{$_SERVER['SERVER_NAME']}/";
 $home_url = $dev_url;
 $api_url = "{$home_url}api";
+$stoveidtxt = "/resources/txt/stove_ids.txt";
+$stoveidbatch = 0;
 //page given in url parameter, dafault is one
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 //set number of records per page

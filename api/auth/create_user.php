@@ -75,7 +75,7 @@ if(isset($data->jwt)){
                 case 'admin':
                     $user->access_level = 'vendor';
                     break;
-                case 'agent':
+                case 'vendor':
                     $user->access_level = 'user';
                     break;
                 default:
@@ -88,7 +88,6 @@ if(isset($data->jwt)){
             if($user->create()){
                 // send confimation email
                 $send_to_email = $user->email;
-                print_r($home_url);
                 $body = "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
                 <html>
                 <head>
@@ -144,7 +143,7 @@ if(isset($data->jwt)){
         //set response code
         http_response_code(401);
         //display message: unable to authenticate
-        echo json_encode(array("message" => "Error! access denied"));
+        echo json_encode(array("message" => "Error! access denied {$e}"));
     }
 }else{
     //set response code

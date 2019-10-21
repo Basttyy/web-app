@@ -51,11 +51,11 @@ if($user->emailExists()){
 
         // send reset link
         $body="Hi there.<br /><br />";
-        $body.="Please click the following link to reset your password: <a href='http://{$home_url}#reset-password/{$user->access_code}'>Reset Password</a>";
+        $body.="Please click the following link to reset your password: <a href='{$home_url}#reset-password/{$user->access_code}'>Reset Password</a>";
         $subject="Reset Password";
         $send_to_email=$user->email;
 
-        if($utils->sendEmailViaSendgrid($send_to_email, $subject, $body)){
+        if($utils->sendEmailViaPhpMailer($send_to_email, $send_to_email, $subject, $body)){
             //set response code
             http_response_code(200);
             //display message email was sent

@@ -1,49 +1,70 @@
 <?php
 // required headers
-// if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-//     header('Access-Control-Allow-Origin: http://localhost:5500');
-//     header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
-//     header('Access-Control-Allow-Headers: token, Content-Type');
-//     header('Access-Control-Max-Age: 1728000');
-//     header('Content-Length: 0');
-//     header('Content-Type: text/plain');
-//     die();
-// }
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: http://localhost:8080');
+    header('Access-Control-Allow-Methods: POST, GET');
+    header('Access-Control-Allow-Headers: token, Content-Type');
+    header('Access-Control-Max-Age: 1728000');
+    header('Content-Length: 0');
+    header('Content-Type: text/plain');
+    die();
+}
 
-// header('Access-Control-Allow-Origin: http://localhost:5500');
-// header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: http://localhost:8080');
+header('Content-Type: application/json');
 
-// core configuration
-include_once "../config/core.php";
- 
-// include classes
+// files needed to connect to database
 include_once '../config/database.php';
 include_once '../objects/stove.php';
- 
+
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// initialize objects
+// instantiate user object
 $stove = new Stove($db);
-$payment = new Payment($db);
- 
-// get access code
-//$user->access_code=isset($_GET['access_code']) ? $_GET['access_code'] : "";
-$data = json_decode(file_get_contents('php://input'));
 
-if(isset($data->i)){
-    $payment->status = $data->status;
-    if($payment->updateTransStatus()){
-        //$stove->;
-        if($stove->update()){
+// get posted data
+$data = json_decode(file_get_contents("php://input"));
 
+
+try{
+    if($data->access_key == $access_key){
+        if($stove->getPaymentStatus){
+            //set http response header
+            http_response_code(400);
+            echo json_encode(
+                array(
+                    "message" => $stove->paidstatus
+                )
+            );
         }else{
-
+            //set http response header
+            http_response_code(401);
+            echo json_encode(
+                array(
+                    "message" => "access denied"
+                )
+            );
         }
     }else{
-
+            //set http response header
+        http_response_code(400);
+        //return error
+        echo json_encode(
+            array(
+                "message" => "incomplete request parameter"
+            )
+        );
     }
-}else{
-
+}
+catch(exception $e){
+    //set http response header
+    http_response_code(500);
+    echo json_encode(
+        array(
+            "message" => "internal server error",
+            "error" => $e->getMessage()
+        )
+    );
 }

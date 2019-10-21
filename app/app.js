@@ -1,5 +1,5 @@
 //global variables
-var api_url = 'http://web-app.test:8080/';
+var api_url = 'https://web-app.test/';
 var home_page = '';
 var login_page = 'login';
 var update_profile_page = 'update-profile';
